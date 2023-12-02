@@ -34,7 +34,7 @@ public class GerenciadorDeClientes extends Thread {
 				escritor.println("Digite SAIR para encerrar a aplicação ou " +
 						"chat para conversar");
 			String msg;
-			do{
+			while(true){
 				msg = leitor.readLine();
 
 				if(msg.equalsIgnoreCase(Comandos.SAIR)){
@@ -52,7 +52,9 @@ public class GerenciadorDeClientes extends Thread {
 						escritor.println("O cliente informado nao existe");
 					}else{
 						escritor.println("digite uma mensagem para " + destinario.getNomeCliente());
-						destinario.getEscritor().println(this.nomeCliente + " disse: " + leitor.readLine());
+						while(!msg.equalsIgnoreCase("quit")){
+							destinario.getEscritor().println(this.nomeCliente + " disse: " + leitor.readLine());
+						}
 					}
 					
 				// lista o nome de todos os clientes logados
@@ -63,7 +65,7 @@ public class GerenciadorDeClientes extends Thread {
 				}else{
 					escritor.println(this.nomeCliente + ", você disse: " + msg);
 				}
-			}while (!msg.equalsIgnoreCase("sair"));
+			}
 			
 		} catch (IOException e) {
 			System.err.println("o cliente fechou a conexao");
@@ -86,11 +88,11 @@ public class GerenciadorDeClientes extends Thread {
 				escritor.println("olá " + this.nomeCliente);
 				clientes.put(this.nomeCliente, this);
 
-				if (clientes.size() < 2){
-					escritor.println("Ainda não existem clientes para conversar");
-				}
 				for(String cliente: clientes.keySet()){
 					atualizarListaUsuarios(clientes.get(cliente));
+				}
+				if (clientes.size() < 2){
+					escritor.println("Ainda não existem clientes para conversar");
 				}
 				break;
 			}
